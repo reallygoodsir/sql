@@ -1,0 +1,248 @@
+Task 1: Find products that have more than 2 transactions in the store located in 'New York'.
+CREATE TABLE products (
+  product_id INT,
+  product_name VARCHAR(50)
+);
+
+CREATE TABLE transactions (
+  transaction_id INT,
+  product_id INT,
+  store_location VARCHAR(50)
+);
+
+INSERT INTO products VALUES (1, 'Laptop'), (2, 'Phone'), (3, 'Tablet');
+INSERT INTO transactions VALUES (1, 1, 'New York'), (2, 1, 'New York'), (3, 2, 'Chicago'), (4, 2, 'New York'), (5, 1, 'New York'), (6, 3, 'New York'), (7, 3, 'New York');
+
+select p.product_name, count(t.transaction_id) as product_counts
+from products p
+inner join transactions t
+on p.product_id = t.product_id
+where t.store_location = 'New York'
+group by p.product_name
+having count(t.transaction_id) > 0
+
+
+
+Task 2: Identify customers who have spent more than $210 in total on 'Electronics'.
+CREATE TABLE customers (
+  customer_id INT,
+  name VARCHAR(50)
+);
+
+CREATE TABLE sales (
+  sale_id INT,
+  customer_id INT,
+  category VARCHAR(50),
+  amount DECIMAL(10,2)
+);
+
+INSERT INTO customers VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Charlie');
+INSERT INTO sales VALUES (1, 1, 'Electronics', 150), (2, 1, 'Electronics', 200), (3, 2, 'Clothing', 100), (4, 3, 'Electronics', 250), (5, 3, 'Electronics', 100);
+
+select c.name, sum(s.amount)
+from customers c
+inner join sales s
+on c.customer_id = s.customer_id
+where s.category = 'Electronics'
+group by c.name
+having sum(s.amount) > 210
+
+
+
+Task 3: List the employees who have managed more than 2 projects in '2021'.
+CREATE TABLE employees (
+  employee_id INT,
+  name VARCHAR(50)
+);
+
+CREATE TABLE projects (
+  project_id INT,
+  employee_id INT,
+  project_year INT
+);
+
+INSERT INTO employees VALUES (1, 'John'), (2, 'Sarah'), (3, 'Mike');
+INSERT INTO projects VALUES (1, 1, 2021), (2, 1, 2021), (3, 1, 2021), (4, 2, 2022), (5, 3, 2021);
+
+
+select e.name, count(project_id)
+from projects p
+inner join employees e
+on p.employee_id = e.employee_id
+where p.project_year = 2021
+group by e.name
+having count(project_id) > 2
+
+
+
+Task 4: Show schools that have more than 2 teachers with a salary higher than $50,000.
+CREATE TABLE schools (
+  school_id INT,
+  school_name VARCHAR(50)
+);
+
+CREATE TABLE teachers (
+  teacher_id INT,
+  school_id INT,
+  salary DECIMAL(10,2)
+);
+
+INSERT INTO schools VALUES (1, 'Greenwood High'), (2, 'Riverside Academy');
+INSERT INTO teachers VALUES (1, 1, 55000), (2, 1, 50000), (3, 1, 60000), (4, 1, 62000), (5, 2, 48000);
+
+select s.school_name, count(t.school_id)
+from schools s
+inner join teachers t
+on t.school_id = s.school_id
+where t.salary > 50000
+group by s.school_name
+having count(t.school_id) > 2
+
+
+
+Task 5: Find products that are categorized as 'Food' and have more than 4 purchases.
+CREATE TABLE products2 (
+  product_id INT,
+  product_name VARCHAR(50),
+  category VARCHAR(50)
+);
+
+CREATE TABLE purchases (
+  purchase_id INT,
+  product_id INT
+);
+
+INSERT INTO products VALUES (1, 'Bread', 'Food'), (2, 'Milk', 'Food'), (3, 'Jeans', 'Apparel');
+INSERT INTO purchases VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 2), (7, 2);
+
+select products.product_name, count(purchases.product_id) as purchases
+from products2 products
+inner join purchases purchases
+on products.product_id = purchases.product_id
+where category = 'Food'
+group by products.product_name
+having count(purchases.product_id) > 4
+
+
+
+Task 6: List departments where  2 employees have an experience of over 5 years.
+CREATE TABLE departments (
+  department_id INT,
+  department_name VARCHAR(50)
+);
+
+CREATE TABLE employees2 (
+  employee_id INT,
+  department_id INT,
+  years_experience INT
+);
+
+INSERT INTO departments VALUES (1, 'HR'), (2, 'IT');
+INSERT INTO employees2 VALUES (1, 1, 6), (2, 1, 4), (3, 1, 7), (4, 2, 8), (5, 2, 6);
+
+select d.department_name, count(d.department_id)
+from employees2 e
+inner join departments d
+on d.department_id = e.department_id
+where e.years_experience > 5
+group by d.department_name
+having count(d.department_id) >= 2
+
+
+
+Task 7: Identify stores in 'California' that have more than 10 employees.
+CREATE TABLE stores (
+  store_id INT,
+  store_name VARCHAR(50),
+  location VARCHAR(50)
+);
+
+CREATE TABLE employees3 (
+  employee_id INT,
+  store_id INT
+);
+
+INSERT INTO stores VALUES (1, 'Tech Gadgets', 'California'), (2, 'Book World', 'New York');
+INSERT INTO employees3 VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 2);
+
+select s.store_name, count(e.store_id)
+from employees3 e
+inner join stores s
+on e.store_id = s.store_id
+group by s.store_name
+having count(e.store_id) > 10
+
+
+
+Task 8: Show vehicles that are sold more than 3 times in '2022'.
+CREATE TABLE vehicles (
+  vehicle_id INT,
+  model VARCHAR(50)
+);
+
+CREATE TABLE sales2 (
+  sale_id INT,
+  vehicle_id INT,
+  sale_year INT
+);
+
+INSERT INTO vehicles VALUES (1, 'Toyota Camry'), (2, 'Ford Focus');
+INSERT INTO sales2 VALUES (1, 1, 2022), (2, 1, 2022), (3, 1, 2022), (4, 1, 2022), (5, 2, 2022);
+
+select v.model, count(sale_year)
+from sales2 s
+inner join vehicles v
+on s.vehicle_id = v.vehicle_id
+where sale_year = 2022
+group by v.model
+having count(sale_year) > 3
+
+
+
+Task 9: List authors with more than one book published after '2015'.
+CREATE TABLE authors (
+  author_id INT,
+  name VARCHAR(50)
+);
+
+CREATE TABLE books (
+  book_id INT,
+  author_id INT,
+  publication_year INT
+);
+
+INSERT INTO authors VALUES (1, 'John Doe'), (2, 'Jane Smith');
+INSERT INTO books VALUES (1, 1, 2016), (2, 1, 2017), (3, 2, 2014);
+
+select a.name, count(b.author_id)
+from authors a
+inner join books b
+on a.author_id = b.author_id
+where b.publication_year > 2015
+group by a.name
+having count(b.author_id) > 1
+
+
+Task 10: Find clinics that have treated more than 5 patients aged over 60 in 'Los Angeles'.
+CREATE TABLE clinics (
+  clinic_id INT,
+  clinic_name VARCHAR(50),
+  location VARCHAR(50)
+);
+
+CREATE TABLE patients (
+  patient_id INT,
+  clinic_id INT,
+  age INT
+);
+
+INSERT INTO clinics VALUES (1, 'Health Center', 'Los Angeles'), (2, 'Care Clinic', 'San Francisco');
+INSERT INTO patients VALUES (1, 1, 65), (2, 1, 70), (3, 1, 66), (4, 1, 67), (5, 1, 68), (6, 1, 71);
+
+select c.clinic_name, count(p.clinic_id)
+from patients p
+inner join clinics c
+on c.clinic_id = p.clinic_id
+where p.age > 60 AND c.location = 'Los Angeles'
+group by c.clinic_name
+having count(p.clinic_id) > 5

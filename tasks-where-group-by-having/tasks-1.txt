@@ -1,0 +1,207 @@
+Task 1: List each department's employee count only for departments located in 'New York' having more than 1 employees.
+CREATE TABLE employees (
+  id INT,
+  name VARCHAR(50),
+  department VARCHAR(50),
+  city VARCHAR(50)
+);
+INSERT INTO employees (id, name, department, city) VALUES (1, 'John', 'HR', 'New York');
+INSERT INTO employees (id, name, department, city) VALUES (2, 'Jane', 'IT', 'New York');
+INSERT INTO employees (id, name, department, city) VALUES (3, 'Bob', 'IT', 'Los Angeles');
+INSERT INTO employees (id, name, department, city) VALUES (4, 'Alice', 'HR', 'New York');
+INSERT INTO employees (id, name, department, city) VALUES (5, 'Charlie', 'IT', 'New York');
+INSERT INTO employees (id, name, department, city) VALUES (6, 'Diana', 'IT', 'New York');
+
+select department, COUNT(department)
+from employees
+where city = 'New York'
+group by department
+having COUNT(department) > 1
+
+
+
+Task 2: Find roles with an average salary greater than $50000 only for those in the 'Engineering' department.
+CREATE TABLE salaries (
+  id INT,
+  role VARCHAR(50),
+  salary INT,
+  department VARCHAR(50)
+);
+INSERT INTO salaries (id, role, salary, department) VALUES (1, 'Engineer', 60000, 'Engineering');
+INSERT INTO salaries (id, role, salary, department) VALUES (2, 'Manager', 70000, 'Operations');
+INSERT INTO salaries (id, role, salary, department) VALUES (3, 'Clerk', 35000, 'Engineering');
+INSERT INTO salaries (id, role, salary, department) VALUES (4, 'Engineer', 65000, 'Engineering');
+INSERT INTO salaries (id, role, salary, department) VALUES (5, 'Manager', 72000, 'Engineering');
+
+select role, AVG(salary)
+from salaries
+where department = 'Engineering'
+group by role
+having AVG(salary) > 50000
+
+
+
+Task 3: Retrieve product categories that have sold more than 100 units where the price is at least $20.
+CREATE TABLE products (
+  product_id INT,
+  category VARCHAR(50),
+  units_sold INT,
+  price DECIMAL(10, 2)
+);
+INSERT INTO products VALUES (1, 'Electronics', 150, 100.00);
+INSERT INTO products VALUES (2, 'Clothing', 90, 45.00);
+INSERT INTO products VALUES (3, 'Electronics', 130, 120.00);
+INSERT INTO products VALUES (4, 'Books', 120, 20.00);
+
+SELECT category, SUM(units_sold)
+from products
+where price >= 20
+group by category
+having SUM(units_sold) > 100
+
+
+
+Task 4: List cities with more than 1 restaurants having a rating higher than 4.0 since 2019.
+CREATE TABLE restaurants (
+  id INT,
+  name VARCHAR(50),
+  city VARCHAR(50),
+  rating DECIMAL(2,1),
+  opening_date DATE
+);
+INSERT INTO restaurants VALUES (1, 'Diner', 'New York', 4.5, '2019-06-01');
+INSERT INTO restaurants VALUES (2, 'Pizzeria', 'Chicago', 4.2, '2021-07-15');
+INSERT INTO restaurants VALUES (3, 'Steakhouse', 'New York', 4.3, '2021-07-15');
+INSERT INTO restaurants VALUES (4, 'Cafe', 'Los Angeles', 3.9, '2018-08-01');
+
+select city, avg(rating)
+from restaurants
+where opening_date > '2019-01-01'
+group by city
+having avg(rating) > 4.0 AND COUNT(name) > 1
+
+
+
+Task 5: Identify vehicle types having more than 3 different suppliers only for vehicles priced over $24,000.
+CREATE TABLE suppliers (
+  supplier_id INT,
+  vehicle_type VARCHAR(50),
+  vehicle_price INT
+);
+INSERT INTO suppliers VALUES (1, 'Sedan', 25000);
+INSERT INTO suppliers VALUES (2, 'SUV', 30000);
+INSERT INTO suppliers VALUES (3, 'SUV', 24500);
+INSERT INTO suppliers VALUES (4, 'Truck', 24000);
+INSERT INTO suppliers VALUES (5, 'SUV', 31000);
+INSERT INTO suppliers VALUES (6, 'Sedan', 25000);
+INSERT INTO suppliers VALUES (7, 'SUV', 36000);
+INSERT INTO suppliers VALUES (8, 'SUV', 27000);
+
+select vehicle_type, count(vehicle_type)
+from suppliers
+where vehicle_price > 24000
+group by vehicle_type
+having count(vehicle_type) > 3
+
+
+
+Task 6: Display employee total hours worked for those employees who worked on 'Project A' where employee's total hours worked exceeds 40.
+CREATE TABLE time_logs (
+  employee_id INT,
+  hours_worked INT,
+  project VARCHAR(50)
+);
+INSERT INTO time_logs VALUES (1, 45, 'Project A');
+INSERT INTO time_logs VALUES (2, 38, 'Project B');
+INSERT INTO time_logs VALUES (3, 42, 'Project A');
+INSERT INTO time_logs VALUES (1, 10, 'Project A');
+INSERT INTO time_logs VALUES (3, 8, 'Project A');
+
+select employee_id, sum(hours_worked)
+from time_logs
+where project = 'Project A'
+group by employee_id
+having sum(hours_worked) > 40
+
+
+
+Task 7: List customers who have placed more than 4 orders where each order exceeds $100.
+CREATE TABLE orders (
+  order_id INT,
+  customer_id INT,
+  order_value DECIMAL(10,2)
+);
+INSERT INTO orders VALUES (1, 100, 150.00);
+INSERT INTO orders VALUES (2, 100, 200.00);
+INSERT INTO orders VALUES (3, 101, 99.00);
+INSERT INTO orders VALUES (4, 100, 120.00);
+INSERT INTO orders VALUES (5, 102, 50.00);
+INSERT INTO orders VALUES (6, 100, 180.00);
+INSERT INTO orders VALUES (7, 100, 110.00);
+
+select customer_id, count(order_id)
+from orders
+where order_value > 100
+group by customer_id
+having count(order_id) > 4
+
+
+
+Task 8: Find products whose total sales exceed $10,000 only for sales made in the year 2021.
+CREATE TABLE product_sales (
+  product_name VARCHAR(50),
+  sales_amount INT,
+  sale_date DATE
+);
+INSERT INTO product_sales VALUES ('Laptop', 5000, '2021-05-15');
+INSERT INTO product_sales VALUES ('Laptop', 7000, '2021-06-17');
+INSERT INTO product_sales VALUES ('Phone', 3000, '2021-07-21');
+
+select product_name, sum(sales_amount)
+from product_sales
+where YEAR(sale_date) = 2021
+group by product_name
+having sum(sales_amount) > 10000
+
+
+
+Task 9: Identify accounts with a balance higher than the average balance for all accounts opened after 2015.
+CREATE TABLE accounts (
+  account_id INT,
+  balance DECIMAL(10,2),
+  opening_year INT
+);
+INSERT INTO accounts VALUES (1, 1500.00, 2014);
+INSERT INTO accounts VALUES (2, 2500.00, 2016);
+INSERT INTO accounts VALUES (3, 3000.00, 2017);
+INSERT INTO accounts VALUES (4, 4700.00, 2005);
+INSERT INTO accounts VALUES (5, 2800.00, 2023);
+
+select account_id, avg(balance)
+from accounts
+group by account_id
+having avg(balance) > (select avg(balance) from accounts where opening_year > 2015);
+
+
+
+Task 10: List transaction types that occur more than 2 times in november for transactions that exceed $100.
+CREATE TABLE transactions (
+  transaction_id INT,
+  transaction_type VARCHAR(50),
+  transaction_date DATE,
+  amount DECIMAL(10,2)
+);
+INSERT INTO transactions VALUES (1, 'Deposit', '2021-11-05', 200.00);
+INSERT INTO transactions VALUES (2, 'Withdrawal', '2021-11-08', 150.00);
+INSERT INTO transactions VALUES (3, 'Deposit', '2021-11-15', 300.00);
+INSERT INTO transactions VALUES (4, 'Deposit', '2021-11-20', 250.00);
+INSERT INTO transactions VALUES (5, 'Withdrawal', '2021-12-02', 120.00);
+INSERT INTO transactions VALUES (6, 'Withdrawal', '2021-11-24', 50.00);
+INSERT INTO transactions VALUES (7, 'Withdrawal', '2021-11-29', 450.00);
+
+select transaction_type, count(transaction_id)
+from transactions
+where amount > 100 and MONTH(transaction_date) = 11
+group by transaction_type
+having count(transaction_id) > 2
+
