@@ -12,11 +12,11 @@ INSERT INTO employees (id, name, department, city) VALUES (4, 'Alice', 'HR', 'Ne
 INSERT INTO employees (id, name, department, city) VALUES (5, 'Charlie', 'IT', 'New York');
 INSERT INTO employees (id, name, department, city) VALUES (6, 'Diana', 'IT', 'New York');
 
-select department, COUNT(department)
+select department, COUNT(id) as employee_numbers
 from employees
 where city = 'New York'
 group by department
-having COUNT(department) > 1
+having COUNT(id) > 1
 
 
 
@@ -33,7 +33,7 @@ INSERT INTO salaries (id, role, salary, department) VALUES (3, 'Clerk', 35000, '
 INSERT INTO salaries (id, role, salary, department) VALUES (4, 'Engineer', 65000, 'Engineering');
 INSERT INTO salaries (id, role, salary, department) VALUES (5, 'Manager', 72000, 'Engineering');
 
-select role, AVG(salary)
+select role, AVG(salary) as avg_salary
 from salaries
 where department = 'Engineering'
 group by role
@@ -53,7 +53,7 @@ INSERT INTO products VALUES (2, 'Clothing', 90, 45.00);
 INSERT INTO products VALUES (3, 'Electronics', 130, 120.00);
 INSERT INTO products VALUES (4, 'Books', 120, 20.00);
 
-SELECT category, SUM(units_sold)
+SELECT category, SUM(units_sold) as product_numbers_sold
 from products
 where price >= 20
 group by category
@@ -74,11 +74,11 @@ INSERT INTO restaurants VALUES (2, 'Pizzeria', 'Chicago', 4.2, '2021-07-15');
 INSERT INTO restaurants VALUES (3, 'Steakhouse', 'New York', 4.3, '2021-07-15');
 INSERT INTO restaurants VALUES (4, 'Cafe', 'Los Angeles', 3.9, '2018-08-01');
 
-select city, avg(rating)
+select city, COUNT(name) as restaurants_numbers
 from restaurants
-where opening_date > '2019-01-01'
+where opening_date > '2019-01-01' and rating > 4
 group by city
-having avg(rating) > 4.0 AND COUNT(name) > 1
+having COUNT(name) > 1
 
 
 
@@ -97,11 +97,11 @@ INSERT INTO suppliers VALUES (6, 'Sedan', 25000);
 INSERT INTO suppliers VALUES (7, 'SUV', 36000);
 INSERT INTO suppliers VALUES (8, 'SUV', 27000);
 
-select vehicle_type, count(vehicle_type)
+select vehicle_type, count(supplier_id) as suppliers_numbers
 from suppliers
 where vehicle_price > 24000
 group by vehicle_type
-having count(vehicle_type) > 3
+having count(supplier_id) > 3
 
 
 
@@ -117,7 +117,7 @@ INSERT INTO time_logs VALUES (3, 42, 'Project A');
 INSERT INTO time_logs VALUES (1, 10, 'Project A');
 INSERT INTO time_logs VALUES (3, 8, 'Project A');
 
-select employee_id, sum(hours_worked)
+select employee_id, sum(hours_worked) total_hours_worked
 from time_logs
 where project = 'Project A'
 group by employee_id
@@ -139,7 +139,7 @@ INSERT INTO orders VALUES (5, 102, 50.00);
 INSERT INTO orders VALUES (6, 100, 180.00);
 INSERT INTO orders VALUES (7, 100, 110.00);
 
-select customer_id, count(order_id)
+select customer_id, count(order_id) orders_numbers
 from orders
 where order_value > 100
 group by customer_id
@@ -157,7 +157,7 @@ INSERT INTO product_sales VALUES ('Laptop', 5000, '2021-05-15');
 INSERT INTO product_sales VALUES ('Laptop', 7000, '2021-06-17');
 INSERT INTO product_sales VALUES ('Phone', 3000, '2021-07-21');
 
-select product_name, sum(sales_amount)
+select product_name, sum(sales_amount) total_sales_amount
 from product_sales
 where YEAR(sale_date) = 2021
 group by product_name
@@ -199,7 +199,7 @@ INSERT INTO transactions VALUES (5, 'Withdrawal', '2021-12-02', 120.00);
 INSERT INTO transactions VALUES (6, 'Withdrawal', '2021-11-24', 50.00);
 INSERT INTO transactions VALUES (7, 'Withdrawal', '2021-11-29', 450.00);
 
-select transaction_type, count(transaction_id)
+select transaction_type, count(transaction_id) as transaction_numbers
 from transactions
 where amount > 100 and MONTH(transaction_date) = 11
 group by transaction_type

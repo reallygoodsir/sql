@@ -13,7 +13,7 @@ CREATE TABLE transactions (
 INSERT INTO products VALUES (1, 'Laptop'), (2, 'Phone'), (3, 'Tablet');
 INSERT INTO transactions VALUES (1, 1, 'New York'), (2, 1, 'New York'), (3, 2, 'Chicago'), (4, 2, 'New York'), (5, 1, 'New York'), (6, 3, 'New York'), (7, 3, 'New York');
 
-select p.product_name, count(t.transaction_id) as product_counts
+select p.product_name, count(t.transaction_id) as transaction_counts
 from products p
 inner join transactions t
 on p.product_id = t.product_id
@@ -39,7 +39,7 @@ CREATE TABLE sales (
 INSERT INTO customers VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Charlie');
 INSERT INTO sales VALUES (1, 1, 'Electronics', 150), (2, 1, 'Electronics', 200), (3, 2, 'Clothing', 100), (4, 3, 'Electronics', 250), (5, 3, 'Electronics', 100);
 
-select c.name, sum(s.amount)
+select c.name, sum(s.amount) as total_amount
 from customers c
 inner join sales s
 on c.customer_id = s.customer_id
@@ -65,7 +65,7 @@ INSERT INTO employees VALUES (1, 'John'), (2, 'Sarah'), (3, 'Mike');
 INSERT INTO projects VALUES (1, 1, 2021), (2, 1, 2021), (3, 1, 2021), (4, 2, 2022), (5, 3, 2021);
 
 
-select e.name, count(project_id)
+select e.name, count(project_id) as project_numbers
 from projects p
 inner join employees e
 on p.employee_id = e.employee_id
@@ -90,13 +90,13 @@ CREATE TABLE teachers (
 INSERT INTO schools VALUES (1, 'Greenwood High'), (2, 'Riverside Academy');
 INSERT INTO teachers VALUES (1, 1, 55000), (2, 1, 50000), (3, 1, 60000), (4, 1, 62000), (5, 2, 48000);
 
-select s.school_name, count(t.school_id)
+select s.school_name, count(t.teacher_id) as teacher_numbers
 from schools s
 inner join teachers t
 on t.school_id = s.school_id
 where t.salary > 50000
 group by s.school_name
-having count(t.school_id) > 2
+having count(t.teacher_id) > 2
 
 
 
@@ -115,17 +115,17 @@ CREATE TABLE purchases (
 INSERT INTO products VALUES (1, 'Bread', 'Food'), (2, 'Milk', 'Food'), (3, 'Jeans', 'Apparel');
 INSERT INTO purchases VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 2), (7, 2);
 
-select products.product_name, count(purchases.product_id) as purchases
-from products2 products
-inner join purchases purchases
-on products.product_id = purchases.product_id
+select pds.product_name, count(prs.purchase_id) as purchases_count
+from products2 pds
+inner join purchases prs
+on pds.product_id = prs.product_id
 where category = 'Food'
-group by products.product_name
-having count(purchases.product_id) > 4
+group by pds.product_name
+having count(prs.purchase_id) > 4
 
 
 
-Task 6: List departments where  2 employees have an experience of over 5 years.
+Task 6: List departments where 2 employees have an experience of over 5 years.
 CREATE TABLE departments (
   department_id INT,
   department_name VARCHAR(50)
@@ -140,13 +140,13 @@ CREATE TABLE employees2 (
 INSERT INTO departments VALUES (1, 'HR'), (2, 'IT');
 INSERT INTO employees2 VALUES (1, 1, 6), (2, 1, 4), (3, 1, 7), (4, 2, 8), (5, 2, 6);
 
-select d.department_name, count(d.department_id)
+select d.department_name, count(e.employee_id) as employee_count
 from employees2 e
 inner join departments d
 on d.department_id = e.department_id
 where e.years_experience > 5
 group by d.department_name
-having count(d.department_id) >= 2
+having count(e.employee_id) >= 2
 
 
 
@@ -165,12 +165,13 @@ CREATE TABLE employees3 (
 INSERT INTO stores VALUES (1, 'Tech Gadgets', 'California'), (2, 'Book World', 'New York');
 INSERT INTO employees3 VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 2);
 
-select s.store_name, count(e.store_id)
+select s.store_name, count(e.employee_id) as employee_count
 from employees3 e
 inner join stores s
 on e.store_id = s.store_id
+where s.location = 'California'
 group by s.store_name
-having count(e.store_id) > 10
+having count(e.employee_id) > 10
 
 
 
@@ -189,13 +190,13 @@ CREATE TABLE sales2 (
 INSERT INTO vehicles VALUES (1, 'Toyota Camry'), (2, 'Ford Focus');
 INSERT INTO sales2 VALUES (1, 1, 2022), (2, 1, 2022), (3, 1, 2022), (4, 1, 2022), (5, 2, 2022);
 
-select v.model, count(sale_year)
+select v.model, count(s.sale_id) as sales_count
 from sales2 s
 inner join vehicles v
 on s.vehicle_id = v.vehicle_id
-where sale_year = 2022
+where s.sale_year = 2022
 group by v.model
-having count(sale_year) > 3
+having count(s.sale_id) > 3
 
 
 
@@ -214,13 +215,13 @@ CREATE TABLE books (
 INSERT INTO authors VALUES (1, 'John Doe'), (2, 'Jane Smith');
 INSERT INTO books VALUES (1, 1, 2016), (2, 1, 2017), (3, 2, 2014);
 
-select a.name, count(b.author_id)
+select a.name, count(b.book_id) as book_count
 from authors a
 inner join books b
 on a.author_id = b.author_id
 where b.publication_year > 2015
 group by a.name
-having count(b.author_id) > 1
+having count(b.book_id) > 1
 
 
 Task 10: Find clinics that have treated more than 5 patients aged over 60 in 'Los Angeles'.
@@ -239,10 +240,10 @@ CREATE TABLE patients (
 INSERT INTO clinics VALUES (1, 'Health Center', 'Los Angeles'), (2, 'Care Clinic', 'San Francisco');
 INSERT INTO patients VALUES (1, 1, 65), (2, 1, 70), (3, 1, 66), (4, 1, 67), (5, 1, 68), (6, 1, 71);
 
-select c.clinic_name, count(p.clinic_id)
+select c.clinic_name, count(p.patient_id) as patients_numbers
 from patients p
 inner join clinics c
 on c.clinic_id = p.clinic_id
 where p.age > 60 AND c.location = 'Los Angeles'
 group by c.clinic_name
-having count(p.clinic_id) > 5
+having count(p.patient_id) > 5
