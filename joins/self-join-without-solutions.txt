@@ -1,0 +1,123 @@
+Task 1: Finding employee pairs working in the same department
+Instructions: Create a table for employees and find pairs of employees who work in the same department.
+
+CREATE TABLE Employees (
+    EmpID INT,
+    Name VARCHAR(100),
+    DeptID INT
+);
+
+INSERT INTO Employees (EmpID, Name, DeptID) VALUES
+(1, 'John Smith', 101),
+(2, 'Jane Doe', 102),
+(3, 'Alice Johnson', 101),
+(4, 'Chris Evans', 103),
+(5, 'Bob Brown', 101);
+
+
+SELECT a.Name AS Employee1, b.Name AS Employee2, a.DeptID
+FROM Employees a
+JOIN Employees b 
+ON a.DeptID = b.DeptID AND a.EmpID < b.EmpID;
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 2: Employees reporting to the same manager
+Instructions: Create a table to represent an organizational structure, and find pairs of employees who report to the same manager.
+
+CREATE TABLE OrgStructure (
+    EmpID INT,
+    Name VARCHAR(100),
+    ManagerID INT
+);
+
+INSERT INTO OrgStructure (EmpID, Name, ManagerID) VALUES
+(1, 'John Smith', 3),
+(2, 'Jane Doe', 3),
+(3, 'Alice Johnson', NULL),
+(4, 'Chris Evans', 6),
+(5, 'Bob Brown', 6);
+
+
+select o1.name, o2.name, o1.managerid
+from orgstructure o1
+join orgstructure o2
+on o1.managerid = o2.managerid and o1.empid < o2.empid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 3: Finding sibling products under the same category
+Instructions: Create a product table with categories and identify products that belong to the same category.
+
+CREATE TABLE Products (
+    ProductID INT,
+    ProductName VARCHAR(100),
+    CategoryID INT
+);
+
+INSERT INTO Products (ProductID, ProductName, CategoryID) VALUES
+(1, 'Laptop', 10),
+(2, 'Desktop', 10),
+(3, 'Mouse', 11),
+(4, 'Keyboard', 11),
+(5, 'Monitor', 10);
+
+
+select p1.productname, p2.productname, p1.categoryid
+from products p1
+join products p2
+on p1.categoryid = p2.categoryid and p1.productid < p2.productid
+order by categoryid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 4: Teammates working on the same project
+Instructions: Create a table for employees assigned to projects and list pairs of teammates working on the same project.
+
+CREATE TABLE ProjectAssignments (
+    EmpID INT,
+    ProjectID INT
+);
+
+INSERT INTO ProjectAssignments (EmpID, ProjectID) VALUES
+(1, 100),
+(2, 100),
+(3, 101),
+(4, 102),
+(5, 100);
+
+select pa1.empid, pa2.empid, pa1.projectid
+from projectassignments pa1
+join projectassignments pa2
+on pa1.ProjectID = pa2.ProjectID and pa1.empid < pa2.empid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 5: Students enrolled in the same course
+Instructions: Set up a table for students enrolled in courses and find pairs of students attending the same course.
+
+CREATE TABLE CourseEnrollment (
+    StudentID INT,
+    CourseID INT
+);
+
+INSERT INTO CourseEnrollment (StudentID, CourseID) VALUES
+(1, 200),
+(2, 200),
+(3, 201),
+(4, 202),
+(5, 200);
+
+
+select ce1.studentid, ce2.studentid, ce1.courseid
+from courseenrollment ce1
+join courseenrollment ce2
+on ce1.CourseID = ce2.CourseID and ce1.StudentID < ce2.StudentID
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+

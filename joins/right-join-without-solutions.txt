@@ -1,0 +1,175 @@
+Task 1: Display Employees with their respective Departments
+Instructions:
+Create two tables - employees and departments. 
+Each employee is assigned to one department but there might be departments without any employees. 
+Write an SQL query using a RIGHT JOIN to display all departments along with the names of any employees in them.
+
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(255)
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(255),
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+INSERT INTO departments (department_id, department_name) VALUES
+(1, 'HR'),
+(2, 'Marketing'),
+(3, 'Finance');
+
+INSERT INTO employees (employee_id, employee_name, department_id) VALUES
+(101, 'Alice', 1),
+(102, 'Bob', 2);
+
+
+select d.department_id, d.department_name, e.employee_name
+from employees e
+right join departments d
+on e.department_id = d.department_id
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 2: List Products and their optional Supplier Information
+Instructions:
+Create a products table and a suppliers table where each product may or may not have a supplier. 
+Use a RIGHT JOIN in your SQL query to get a list of all products along with their supplier's details if available.
+
+CREATE TABLE suppliers (
+    supplier_id INT PRIMARY KEY,
+    supplier_name VARCHAR(255)
+);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(255),
+    supplier_id INT,
+    FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
+);
+
+INSERT INTO suppliers (supplier_id, supplier_name) VALUES
+(1, 'Supplier A'),
+(2, 'Supplier B');
+
+INSERT INTO products (product_id, product_name, supplier_id) VALUES
+(201, 'Laptop', 1),
+(202, 'Mouse', NULL),
+(203, 'Keyboard', 2);
+
+
+select p.product_name, s.supplier_name
+from suppliers s
+right join products p
+on s.supplier_id = p.supplier_id
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 3: Show all Courses and any Students Enrolled
+Instructions:
+Create two tables, courses and students, where there is a possibility that some courses might not have any students enrolled yet. 
+Use RIGHT JOIN to fetch all courses along with students enrolled in them, if any.
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(255)
+);
+
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(255),
+    course_id INT,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+INSERT INTO courses (course_id, course_name) VALUES
+(301, 'Mathematics'),
+(302, 'Science'),
+(303, 'History');
+
+INSERT INTO students (student_id, student_name, course_id) VALUES
+(401, 'John', 301),
+(402, 'Emma', NULL),
+(403, 'Harry', 302);
+
+
+select s.student_name, c.course_name
+from courses c
+right join students s
+on c.course_id = s.course_id
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 4: Retrieve All Club Members and Their Roles if Assigned
+Instructions:
+Create a clubs table and a members table, where each member can have a role in a club. Some members might not have a designated role yet. 
+Write an SQL query with a RIGHT JOIN to fetch a list of clubs along with any member roles.
+
+CREATE TABLE clubs (
+    club_id INT PRIMARY KEY,
+    club_name VARCHAR(255)
+);
+
+CREATE TABLE members (
+    member_id INT PRIMARY KEY,
+    member_name VARCHAR(255),
+    role VARCHAR(255),
+    club_id INT,
+    FOREIGN KEY (club_id) REFERENCES clubs(club_id)
+);
+
+INSERT INTO clubs (club_id, club_name) VALUES
+(501, 'Chess Club'),
+(502, 'Debate Club');
+
+INSERT INTO members (member_id, member_name, role, club_id) VALUES
+(601, 'Lucas', 'President', 501),
+(602, 'Mia', NULL, 502);
+
+
+select c.club_id, c.club_name, m.member_name, m.role
+from clubs c 
+right join members m
+on c.club_id = m.club_id
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 5: Display All Books and Any Authors Associated
+Instructions:
+Create a books table and authors table where each book may have an author (or could be anonymous). 
+Some authors might not have books published. Use RIGHT JOIN to display all books along with their authors if known.
+
+CREATE TABLE authors (
+    author_id INT PRIMARY KEY,
+    author_name VARCHAR(255)
+);
+
+CREATE TABLE books (
+    book_id INT PRIMARY KEY,
+    book_title VARCHAR(255),
+    author_id INT,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+);
+
+INSERT INTO authors (author_id, author_name) VALUES
+(701, 'George Orwell'),
+(702, 'J.K. Rowling');
+
+INSERT INTO books (book_id, book_title, author_id) VALUES
+(801, '1984', 701),
+(802, 'Animal Farm', NULL);
+
+
+select b.book_id, b.book_title, a.author_name
+from authors a
+right join books b
+on a.author_id = b.author_id
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================

@@ -1,0 +1,171 @@
+Task 1: User and Admin Data Union
+Description:
+Create two tables, one for users and one for admins, 
+each containing information about their first and last names, and email address. 
+Write a SQL query using UNION to combine the information from both tables.
+
+CREATE TABLE Users (
+  id INT PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  email VARCHAR(100)
+);
+
+CREATE TABLE Admins (
+  id INT PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  email VARCHAR(100)
+);
+
+INSERT INTO Users (id, first_name, last_name, email) VALUES
+(1, 'John', 'Doe', 'john.doe@example.com'),
+(2, 'Jane', 'Smith', 'jane.smith@example.com');
+
+INSERT INTO Admins (id, first_name, last_name, email) VALUES 
+(1, 'Alice', 'Johnson', 'alice.johnson@example.com'),
+(2, 'Bob', 'Brown', 'bob.brown@example.com');
+
+
+select * from admins a
+union
+select * from users u
+==============================================================================================================================
+==============================================================================================================================
+==============================================================================================================================
+
+Task 2: Product and Service Catalog
+Description:
+You are to manage two tables: Products and Services. 
+Both tables include a name and a description column. 
+Combine data from both tables to create a complete catalog.
+
+CREATE TABLE Products (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  description TEXT
+);
+
+CREATE TABLE Services (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  description TEXT
+);
+
+INSERT INTO Products (id, name, description) VALUES 
+(1, 'Laptop', 'High-performance laptop'),
+(2, 'Smartphone', 'Latest model smartphone');
+
+INSERT INTO Services (id, name, description) VALUES
+(1, 'Repair', 'Hardware and software repair'),
+(2, 'Installation', 'Software installation services');
+
+
+select * from products
+union
+select * from services
+==============================================================================================================================
+==============================================================================================================================
+==============================================================================================================================
+
+Task 3: Combine Employee and Contractor Information
+Description:
+Create tables for employees and contractors, each containing their name, department, and email. 
+Use UNION to display a combined list of contacts by their department.
+
+CREATE TABLE Employees (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  department VARCHAR(50),
+  email VARCHAR(100)
+);
+
+CREATE TABLE Contractors (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  department VARCHAR(50),
+  email VARCHAR(100)
+);
+
+INSERT INTO Employees (id, name, department, email) VALUES
+(1, 'Samuel Jackson', 'IT', 'samuel.jackson@example.com'),
+(2, 'Lucy Chen', 'Marketing', 'lucy.chen@example.com');
+
+INSERT INTO Contractors (id, name, department, email) VALUES 
+(1, 'Raj Patel', 'IT', 'raj.patel@example.com'),
+(2, 'Emily Stone', 'Marketing', 'emily.stone@example.com');
+
+
+select * from employees
+union
+select * from contractors
+==============================================================================================================================
+==============================================================================================================================
+==============================================================================================================================
+
+Task 4: Active and Inactive Customer Lists
+Description:
+Two tables exist, ActiveCustomers and InactiveCustomers, each with customer ID, name, and email. 
+Union these tables to create a single customer list.
+
+CREATE TABLE ActiveCustomers (
+  id INT PRIMARY KEY,
+  name VARCHAR (100),
+  email VARCHAR(100)
+);
+
+CREATE TABLE InactiveCustomers (
+  id INT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100)
+);
+
+INSERT INTO ActiveCustomers (id, name, email) VALUES 
+(1, 'Harry Potter', 'h.potter@magic.com'),
+(2, 'Hermione Granger', 'h.granger@magic.com');
+
+INSERT INTO InactiveCustomers (id, name, email) VALUES 
+(1, 'Ron Weasley', 'r.weasley@magic.com'),
+(2, 'Draco Malfoy', 'd.malfoy@magic.com');
+
+
+SELECT * FROM tasks7.activecustomers
+union
+SELECT * FROM tasks7.inactivecustomers;
+==============================================================================================================================
+==============================================================================================================================
+==============================================================================================================================
+
+Task 5: Current and Upcoming Events
+Description:
+You have two tables, CurrentEvents and UpcomingEvents, 
+both containing event name, date, and location. 
+Use UNION to compile a complete list of events.
+
+CREATE TABLE CurrentEvents (
+  id INT PRIMARY KEY,
+  event_name VARCHAR(100),
+  event_date DATE,
+  location VARCHAR(100)
+);
+
+CREATE TABLE UpcomingEvents (
+  id INT PRIMARY KEY,
+  event_name VARCHAR(100),
+  event_date DATE,
+  location VARCHAR(100)
+);
+
+INSERT INTO CurrentEvents (id, event_name, event_date, location) VALUES 
+(1, 'Tech Conference', '2023-10-15', 'Conference Center');
+
+INSERT INTO UpcomingEvents (id, event_name, event_date, location) VALUES 
+(1, 'Music Festival', '2024-06-20', 'Outdoor Park');
+
+
+SELECT * FROM tasks7.upcomingevents
+union
+SELECT * FROM tasks7.currentevents;
+==============================================================================================================================
+==============================================================================================================================
+==============================================================================================================================

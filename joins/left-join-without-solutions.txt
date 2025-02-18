@@ -1,0 +1,175 @@
+Task 1: List Products and Their Suppliers
+Objective:
+Write an SQL query to list all the products in the inventory along with their suppliers. 
+Also, list products that have not yet been tied to any supplier.
+
+CREATE TABLE Suppliers (
+  SupplierID INT PRIMARY KEY,
+  SupplierName VARCHAR(255)
+);
+
+CREATE TABLE Products (
+  ProductID INT PRIMARY KEY,
+  ProductName VARCHAR(255),
+  SupplierID INT,
+  FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)
+);
+
+INSERT INTO Suppliers (SupplierID, SupplierName) VALUES
+(1, 'ABC Corp'),
+(2, 'XYZ Inc');
+
+INSERT INTO Products (ProductID, ProductName, SupplierID) VALUES
+(1, 'Laptop', 2),
+(2, 'Monitor', NULL),
+(3, 'Keyboard', 1),
+(4, 'Mouse', NULL);
+
+
+select p.productid, p.productname, p.supplierid, s.SupplierName
+from products p
+left join suppliers s
+on p.supplierid = s.supplierid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+Task 2: Employee and Their Department Information
+Objective:
+Display a list of all employees along with the department names.
+Some employees might not be assigned to any department.
+
+CREATE TABLE Departments (
+  DepartmentID INT PRIMARY KEY,
+  DepartmentName VARCHAR(255)
+);
+
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  EmployeeName VARCHAR(255),
+  DepartmentID INT,
+  FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Departments (DepartmentID, DepartmentName) VALUES
+(1, 'HR'),
+(2, 'Marketing');
+
+INSERT INTO Employees (EmployeeID, EmployeeName, DepartmentID) VALUES
+(1, 'John Doe', 1),
+(2, 'Jane Smith', 2),
+(3, 'Alice Johnson', NULL),
+(4, 'Bob Brown', NULL);
+
+
+select *
+from employees e
+left join departments d
+on d.DepartmentID = e.DepartmentID
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 3: Customers and Their Orders
+Objective:
+Retrieve a list of all customers along with any orders they might have placed. 
+Include those customers who have not placed any orders.
+
+CREATE TABLE Customers (
+  CustomerID INT PRIMARY KEY,
+  CustomerName VARCHAR(255)
+);
+
+CREATE TABLE Orders (
+  OrderID INT PRIMARY KEY,
+  OrderDescription VARCHAR(255),
+  CustomerID INT,
+  FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+INSERT INTO Customers (CustomerID, CustomerName) VALUES
+(1, 'John Doe'),
+(2, 'Jane Smith'),
+(3, 'Alice Johnson');
+
+INSERT INTO Orders (OrderID, OrderDescription, CustomerID) VALUES
+(101, '10 Widgets', 1),
+(102, '5 Gadgets', 2);
+
+
+select c.customerid, c.customername, o.orderid, o.orderdescription
+from customers c
+left join orders o
+on c.customerid = o.customerid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 4: Students and Their Courses
+Objective:
+List all students along with the courses they are enrolled in. 
+Include those students who are not enrolled in any course.
+
+CREATE TABLE Courses (
+  CourseID INT PRIMARY KEY,
+  CourseName VARCHAR(255)
+);
+
+CREATE TABLE Students (
+  StudentID INT PRIMARY KEY,
+  StudentName VARCHAR(255),
+  CourseID INT,
+  FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+INSERT INTO Courses (CourseID, CourseName) VALUES
+(1, 'Mathematics'),
+(2, 'Science');
+
+INSERT INTO Students (StudentID, StudentName, CourseID) VALUES
+(1, 'John Doe', 1),
+(2, 'Jane Smith', 2),
+(3, 'Alice Johnson', NULL);
+
+
+select s.studentid, s.studentname, c.courseid, c.coursename
+from students s
+left join courses c
+on s.courseid = c.courseid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+Task 5: Doctors and Their Appointments
+Objective:
+Get a list of all doctors and any appointments assigned to them. 
+It should include doctors who have no appointments as well.
+
+CREATE TABLE Doctors (
+  DoctorID INT PRIMARY KEY,
+  DoctorName VARCHAR(255)
+);
+
+CREATE TABLE Appointments (
+  AppointmentID INT PRIMARY KEY,
+  AppointmentDate DATE,
+  DoctorID INT,
+  FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+INSERT INTO Doctors (DoctorID, DoctorName) VALUES
+(1, 'Dr. Smith'),
+(2, 'Dr. Jones'),
+(3, 'Dr. Brown');
+
+INSERT INTO Appointments (AppointmentID, AppointmentDate, DoctorID) VALUES
+(101, '2021-06-15', 1),
+(102, '2021-06-17', 1);
+
+
+select d.doctorid, d.doctorname, a.appointmentid, a.appointmentdate
+from doctors d
+left join appointments a
+on d.doctorid = a.doctorid
+========================================================================================================================
+========================================================================================================================
+========================================================================================================================
