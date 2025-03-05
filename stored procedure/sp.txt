@@ -1,0 +1,179 @@
+Task 1: Employee Management System
+Task Instructions:
+Create an Employee table, and a Department table.
+Write a stored procedure to retrieve all employees in a specific department
+including their employee ID, name, and department name.
+Pass department id to stored procedure to retrieve all employees for a specific department.
+
+CREATE TABLE Department (
+    DeptID INT PRIMARY KEY,
+    DeptName VARCHAR(255)
+);
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(255),
+    DeptID INT,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+INSERT INTO Department VALUES (1, 'HR'), (2, 'IT'), (3, 'Finance');
+INSERT INTO Employee VALUES (101, 'John Doe', 1), (102, 'Jane Smith', 2), (103, 'Alice Jones', 3);
+
+
+PROCEDURE `getAllEmployeesForDepartment`(IN id INT)
+BEGIN
+	select e.empid, e.empname, e.deptid
+    from employee e
+    inner join department d
+    on e.deptid = d.deptid
+    where e.deptid = id;
+END
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
+
+Task 2: Product Inventory
+Task Instructions:
+Create a Product table and an Inventory table.
+Write a stored procedure to update the inventory quantity for a specified product.
+Pass product id and new quantity as input parameters to stored procedure.
+
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    ProductName VARCHAR(255)
+);
+
+CREATE TABLE Inventory (
+    InventoryID INT PRIMARY KEY,
+    ProductID INT,
+    Quantity INT,
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+
+INSERT INTO Product VALUES (1, 'Laptop'), (2, 'Mobile Phone');
+INSERT INTO Inventory VALUES (101, 1, 50), (102, 2, 150);
+
+
+PROCEDURE `updateProductQuantity`(IN id INT, IN quantity int)
+BEGIN
+	update inventory i
+    INNER JOIN product p
+	ON i.productid = p.productid
+	SET i.quantity = quantity
+	WHERE p.productid = id;
+END
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
+
+Task 3: Customer Orders System
+Task Instructions:
+Create a Customer table, an Order table, and write a stored procedure
+to generate a report that lists each customer along with their total number of orders.
+
+CREATE TABLE Customer (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(255)
+);
+
+CREATE TABLE Order (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    OrderDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+INSERT INTO Customer VALUES (1, 'Alice'), (2, 'Bob');
+INSERT INTO Order VALUES (1001, 1, '2021-01-26'), (1002, 1, '2021-05-13'), (1003, 2, '2021-02-03');
+
+
+PROCEDURE `getAllCustomersInfo`()
+BEGIN
+	select c.customerid as id, c.customername as name, count(o.customerid) as orders
+    from orders o
+    inner join customer c
+    on c.customerid = o.customerid
+    group by c.customerid;
+END
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
+
+Task 4: Book Library System
+Task Instructions:
+Create a Book table, and a BorrowRecord table.
+Write a stored procedure to find all books that have never been borrowed.
+
+CREATE TABLE Book (
+    BookID INT PRIMARY KEY,
+    Title VARCHAR(255)
+);
+
+CREATE TABLE BorrowRecord (
+    RecordID INT PRIMARY KEY,
+    BookID INT,
+    BorrowDate DATE,
+    ReturnDate DATE,
+    FOREIGN KEY (BookID) REFERENCES Book(BookID)
+);
+
+INSERT INTO Book VALUES (1, '1984'), (2, 'To Kill a Mockingbird'), (3, 'Le Petit Prince');
+INSERT INTO BorrowRecord VALUES (1, 1, '2021-01-01', '2021-01-15'), (2, 2, '2021-03-01', '2021-03-15');
+
+
+CREATE PROCEDURE `getAllUnborrowedBooks` ()
+BEGIN
+	select b.BookID, b.Title
+	from Book b
+	left join BorrowRecord br
+    on b.BookID = br.BookID
+	where br.RecordID is null;
+END
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
+
+Task 5: School Grading System
+Task Instructions:
+Create a Student table, a Course table, and a Grade table.
+Write a stored procedure to calculate the average grade for a student across all courses.
+Pass student id to stored procedure.
+
+CREATE TABLE Student (
+    StudentID INT PRIMARY KEY,
+    StudentName VARCHAR(255)
+);
+
+CREATE TABLE Course (
+    CourseID INT PRIMARY KEY,
+    CourseName VARCHAR(255)
+);
+
+CREATE TABLE Grade (
+    StudentID INT,
+    CourseID INT,
+    Grade INT,
+    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+);
+
+INSERT INTO Student VALUES (1, 'Tom'), (2, 'Jerry');
+INSERT INTO Course VALUES (101, 'Math'), (102, 'Science');
+INSERT INTO Grade VALUES (1, 101, 85), (1, 102, 90), (2, 101, 75), (2, 102, 80);
+
+
+PROCEDURE `getStudentInformation`(in id int)
+BEGIN
+	select s.studentid as id, s.studentname as name, avg(g.grade) as avg_grade
+	from student s
+	join grade g
+	on s.studentid = g.studentid
+	join course c
+	on g.courseid = c.courseid
+	where s.studentid = id
+	group by s.studentid, s.studentname;
+END
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
