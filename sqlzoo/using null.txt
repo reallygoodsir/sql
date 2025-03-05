@@ -1,0 +1,83 @@
+using null
+
+1
+select t.name
+from teacher t
+left join dept d
+on t.dept = d.id
+where dept IS NULL
+
+
+2
+SELECT teacher.name, dept.name
+ FROM teacher INNER JOIN dept
+           ON (teacher.dept=dept.id)
+
+
+3
+select t.name, d.name
+from teacher t
+left join dept d
+on t.dept = d.id
+
+
+4
+select t.name, d.name
+from teacher t
+right join dept d
+on t.dept = d.id
+
+
+5
+select t.name, COALESCE(t.mobile,'07986 444 2266')
+from teacher t
+left join dept d
+on t.dept = d.id
+
+
+6
+select t.name, COALESCE(d.name, 'None')
+from teacher t
+left join dept d
+on t.dept = d.id
+
+
+7
+select COUNT(t.name), COUNT(t.mobile)
+from teacher t
+left join dept d
+on t.dept = d.id
+
+
+8
+select d.name, COUNT(t.dept)
+from teacher t
+right join dept d
+on t.dept = d.id
+group by d.name
+
+
+9
+select t.name, CASE WHEN t.dept = 1
+            THEN 'Sci'
+            WHEN t.dept = 2
+            THEN 'Sci'
+            ELSE 'Art'
+            END
+from teacher t
+left join dept d
+on t.dept = d.id
+
+
+10
+select t.name, CASE WHEN t.dept = 1
+            THEN 'Sci'
+            WHEN t.dept = 2
+            THEN 'Sci'
+            WHEN t.dept = 3
+            THEN 'Art'
+            ELSE 'None'
+            END
+from teacher t
+left join dept d
+on t.dept = d.id

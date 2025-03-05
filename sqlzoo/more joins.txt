@@ -1,0 +1,130 @@
+more joins
+
+
+
+1
+SELECT id, title
+ FROM movie
+ WHERE yr=1962
+
+
+
+2
+SELECT yr
+ FROM movie
+ WHERE title='Citizen Kane'
+
+
+
+3
+SELECT id, title, yr
+ FROM movie
+ WHERE title LIKE '%Star Trek%'
+order by yr
+
+
+
+4
+select id
+from actor
+where name ='Glenn Close'
+
+
+5
+select id
+from movie
+where title ='Casablanca'
+
+
+
+6
+select a.name
+from movie m
+join casting c
+on c.movieid = m.id
+join actor a
+on c.actorid = a.id
+where movieid = 11768
+
+
+7
+select a.name
+from movie m
+join casting c
+on c.movieid = m.id
+join actor a
+on c.actorid = a.id
+where title = 'Alien'
+
+
+8
+select m.title
+from movie m
+join casting c
+on c.movieid = m.id
+join actor a
+on c.actorid = a.id
+where a.name = 'Harrison Ford'
+
+
+9
+select m.title
+from movie m
+join casting c
+on c.movieid = m.id
+join actor a
+on c.actorid = a.id
+where a.name = 'Harrison Ford' and (select ord from casting c2 where actorid = a.id and c.movieid = c2.movieid) <> 1
+
+
+10
+select m.title, a.name
+from movie m
+join casting c
+on m.id = c.movieid
+join actor a
+on c.actorid = a.id
+where m.yr = 1962 and (select ord from casting c2 where actorid = a.id and c.movieid = c2.movieid) = 1
+
+
+
+11
+SELECT yr,COUNT(title) FROM
+  movie JOIN casting ON movie.id=movieid
+        JOIN actor   ON actorid=actor.id
+WHERE name='Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 2
+
+
+
+12
+none
+
+
+13
+select a.name
+from movie m
+join casting c
+on m.id = c.movieid
+join actor a
+on c.actorid = a.id
+where c.ord = 1
+group by a.name
+having count(c.movieid) >= 15
+order by a.name asc
+
+
+14
+select m.title, count(c.actorid)
+from movie m
+join casting c
+on m.id = c.movieid
+where yr = 1978
+group by m.title
+order by count(c.actorid) desc, title
+
+
+
+15
+none
